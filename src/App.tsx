@@ -14,10 +14,9 @@ export const App = () => {
   const [selectedStockTicker, setSelectedStockTicker] = useState<string | null>(
     LS.getItem(LSKeys.ShowThx, false) ? LS.getItem(LSKeys.SelectedStockTicker, null) : null,
   );
-  const { stocks, bots } = useStocksData();
+  const { stocks } = useStocksData();
 
   const selectedStock = stocks.find(s => s.ticker === selectedStockTicker);
-  const selectedBot = bots.find(b => b.variant === 1);
 
   useEffect(() => {
     if (!LS.getItem(LSKeys.UserId, null)) {
@@ -29,8 +28,8 @@ export const App = () => {
     return <ThxLayout link={selectedStock?.link || ''} />;
   }
 
-  if (selectedStockTicker && selectedStock && selectedBot) {
-    return <BuyScreen stockItem={selectedStock} bot={selectedBot} setThx={setThx} />;
+  if (selectedStockTicker && selectedStock) {
+    return <BuyScreen stockItem={selectedStock} setThx={setThx} />;
   }
 
   return (
@@ -40,13 +39,18 @@ export const App = () => {
           Акции
         </Typography.Text>
         <Typography.TitleMobile tag="h1" view="medium" font="system" weight="bold">
-          Фавориты на 3 квартал
+          Фавориты IV квартала
         </Typography.TitleMobile>
       </div>
       <div className={appSt.container}>
         <Typography.Text view="primary-medium">
-          Аналитики Альфа-Инвестиций подготовили стратегию на 3 квартал 2025 года. Рассказываем, чего ожидать инвесторам и на
-          какие бумаги обратить внимание.
+          Аналитики Альфа-Инвестиций представили стратегию на IV квартал 2025 года. В базовом сценарии ожидается умеренный
+          рост Индекса МосБиржи до 2950–3050 пунктов. Позитивным фактором для рынка станет возможное снижение ключевой
+          ставки.
+          <br />
+          При этом рост всего рынка не ожидается — важна избирательность. В фокусе компании со стабильным бизнесом, невысоким
+          долгом и устойчивым спросом. Среди фаворитов — фундаментально сильные экспортеры и внутренние истории, доказавшие
+          устойчивость в 2022–2025 гг.
         </Typography.Text>
         <Typography.TitleMobile tag="h2" view="small" font="system" weight="bold" style={{ marginTop: '1rem' }}>
           Состав подборки
@@ -57,7 +61,7 @@ export const App = () => {
             key={stock.ticker}
             stockItem={stock}
             onClick={s => {
-              window.gtag('event', '6332_card_active', {
+              window.gtag('event', '6292_card_active', {
                 var: 'var2',
                 ticker: s.ticker,
               });
